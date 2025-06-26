@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link,useNavigate } from 'react-router-dom'
+import axios from 'axios'
+
+import {UserDataContext} from "../context/UserContext";
 
 const UserSignUp = () => {
 
@@ -8,17 +11,32 @@ const UserSignUp = () => {
       const [email, setEmail] = useState("")
       const [password, setPassword] = useState("")
       const [userData, setUserData] = useState({})
+
+      const navigate = useNavigate();
+
+      const {user, setUser} = useContext(UserDataContext);
   
-      const submitHandler = (e)=>{
+      const submitHandler = async (e)=>{
           e.preventDefault();
-          setUserData({
-              fullName:{
-                firstName:firstName,
-                lastName:lastName,
+          const newUser = {
+              fullname:{
+                firstname:firstName,
+                lastname:lastName,
               },
               email:email,
               password:password
-          });
+          }
+
+          const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser);
+
+          if(response.status === 201){
+            const data = response.data
+
+            setUser(data.user)
+            localStorage.setItem('token',data.token);
+            navigate('/home')
+          }
+
           setFirstName("");
           setLastName("");
           setEmail("");
@@ -77,7 +95,7 @@ const UserSignUp = () => {
                         className='flex items-center px-3 text-lg placeholder:text-base justify-center w-full bg-[#EEEEED]  py-3 outline-none mb-3 rounded'/>
     
     
-                        <button type="submit" className='flex items-center font-bold  justify-center w-full bg-black text-white  py-3 mt-7 rounded'>Sign up</button>
+                        <button type="submit" className='flex items-center font-bold  justify-center w-full bg-black text-white  py-3 mt-7 rounded'>Create User Account</button>
                     </div>
                         
                 </form>
