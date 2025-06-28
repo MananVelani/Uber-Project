@@ -77,7 +77,7 @@ const CaptainSignup = () => {
                                     setFirstName(e.target.value);
                                 }} 
                                 required type="text" placeholder='First name' 
-                                className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED]  py-3 outline-none mb-5 rounded'/>
+                                className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED]  py-2 outline-none mb-5 rounded'/>
             
                                 <input
                                 value={lastName}
@@ -85,7 +85,7 @@ const CaptainSignup = () => {
                                     setLastName(e.target.value);
                                 }} 
                                 required type="text" placeholder='Last name' 
-                                className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED]  py-3 outline-none mb-5 rounded'/>
+                                className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED]  py-2 outline-none mb-5 rounded'/>
             
                             </div>
     
@@ -96,7 +96,7 @@ const CaptainSignup = () => {
                                 setEmail(e.target.value);
                             }} 
                             required type="email" placeholder='email@example.com' 
-                            className='flex items-center px-3 text-lg placeholder:text-base justify-center w-full bg-[#EEEEED]  py-3 outline-none mb-5 rounded'/>
+                            className='flex items-center px-3 text-lg placeholder:text-base justify-center w-full bg-[#EEEEED]  py-2 outline-none mb-5 rounded'/>
         
                             <h3 className='text-lg font-medium mb-2'>Enter Password</h3>
                             <input
@@ -105,7 +105,7 @@ const CaptainSignup = () => {
                                 setPassword(e.target.value);
                             }}
                             required type="password" placeholder='password' 
-                            className='flex items-center px-3 text-lg placeholder:text-base justify-center w-full bg-[#EEEEED]  py-3 outline-none mb-3 rounded'/>
+                            className='flex items-center px-3 text-lg placeholder:text-base justify-center w-full bg-[#EEEEED]  py-2 outline-none mb-3 rounded'/>
         
                             <h3 className='text-lg font-medium mb-2'>Vehicle Information</h3>
                             <div className='flex gap-2 mb-5'>
@@ -115,7 +115,7 @@ const CaptainSignup = () => {
                                     required
                                     type="text"
                                     placeholder='Vehicle Color'
-                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-3 outline-none rounded'
+                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-2 outline-none rounded'
                                 />
                                 <input
                                     value={vehiclePlate}
@@ -123,7 +123,7 @@ const CaptainSignup = () => {
                                     required
                                     type="text"
                                     placeholder='Vehicle Plate'
-                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-3 outline-none rounded'
+                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-2 outline-none rounded'
                                 />
                             </div>
                             <div className='flex gap-2 mb-5'>
@@ -134,13 +134,13 @@ const CaptainSignup = () => {
                                     type="number"
                                     min="1"
                                     placeholder='Capacity'
-                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-3 outline-none rounded'
+                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-2 outline-none rounded'
                                 />
                                 <select
                                     value={vehicleType}
                                     onChange={e => setVehicleType(e.target.value)}
                                     required
-                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-3 outline-none rounded'
+                                    className='flex items-center px-3 text-lg placeholder:text-base justify-center w-1/2 bg-[#EEEEED] py-2 outline-none rounded'
                                 >
                                     <option value="" disabled>Select Type</option>
                                     <option value="car">Car</option>
@@ -149,7 +149,7 @@ const CaptainSignup = () => {
                                 </select>
                             </div>
         
-                            <button type="submit" className='flex items-center font-bold  justify-center w-full bg-black text-white  py-3 mt-7 rounded'>Create Captain Account</button>
+                            <button type="submit" className='flex items-center font-bold  justify-center w-full bg-black text-white  py-2 mt-7 rounded'>Create Captain Account</button>
                         </div>
                             
                     </form>
