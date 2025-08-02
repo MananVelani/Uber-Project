@@ -1,12 +1,30 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const ConfirmRidePopUp = (props) => {
 
   const [otp, setOtp] = useState("")
+  const navigate = useNavigate();
 
- const submitHandler = (e)=>{
+ const submitHandler = async (e)=>{
       e.preventDefault();
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`,{
+        params : {
+          rideId : props.ride._id,
+          otp: otp
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }        
+      });
+
+      if(response.status === 200){
+        props.setConfirmRidePopupPanel(false);
+        props.setRidePopupPanel(false);
+        props.setMapOpen(false);
+        navigate('/captain-riding',{ state: { ride : props.ride }});
+      }
  }
 
   return (
@@ -23,7 +41,7 @@ const ConfirmRidePopUp = (props) => {
           <img className='h-10 rounded-full' src="https://imgs.search.brave.com/b0FPk_Abk5y7KxtFbnqlI4gfDjhxrGzq-uq_Rmb7sH0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC8xNi8wNS9t/YWxlLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtc2lsaG91ZXR0/ZS1saWdodC12ZWN0/b3ItNTM1MTYwNS5q/cGc" alt="" />
           <div className='flex ml-4 flex-1 justify-between  items-center'>
             <div>
-              <h4 className="text-lg font-medium">Manan Velani</h4>
+              <h4 className="text-lg font-medium">{props.ride?.user.fullname.firstname}</h4>
             </div>
             <div className='text-right'>
                 <h4 className="text-lg font-medium">2.2 km </h4>
@@ -37,20 +55,20 @@ const ConfirmRidePopUp = (props) => {
                 <h4 ><i className="ri-map-pin-2-fill"></i></h4>
                 <div className='border-b-1 w-full  border-gray-300 '>
                   <h2 className='mt-3 text-lg font-semibold'>D/401</h2>
-                  <h4 className='mb-3 text-sm text-gray-700 font-normal'>Harekrishna Residency</h4>
+                  <h4 className='mb-3 text-sm text-gray-700 font-normal'>{props.ride?.pickup}</h4>
                 </div>
             </div>
             <div className='flex  items-center gap-5'>
                 <h4><i className="ri-square-fill"></i></h4>
                 <div className='border-b-1 w-full  border-gray-300 '>
                   <h2 className='mt-3 text-lg font-semibold'>SVNIT Campus</h2>
-                  <h4 className='mb-3 text-sm text-gray-700 font-normal'>Ichchhanath Surat- Dumas, Road, Keval Chowk, Surat, Gujarat 395007</h4>
+                  <h4 className='mb-3 text-sm text-gray-700 font-normal'>{props.ride?.destination}</h4>
                 </div>
             </div>
             <div className='flex  items-center gap-5'>
                 <h4><i className="ri-wallet-fill"></i></h4>
                 <div className=''> 
-                  <h2 className='mt-3 text-lg font-semibold'>₹193.20</h2>
+                  <h2 className='mt-3 text-lg font-semibold'>₹{props.ride?.fare}</h2>
                   <h4 className='mb-3 text-sm text-gray-700 font-normal'>Cash Cash</h4>
                 </div>
             </div>
@@ -64,13 +82,13 @@ const ConfirmRidePopUp = (props) => {
               onChange={(e)=>{
                 setOtp(e.target.value);
               }}
-              className='bg-[#eee] outline-none px-12 py-3 text-lg rounded-lg w-full  font-mono ' type="number" placeholder='Enter OTP' />
+              className='bg-[#eee] outline-none px-12 py-3 text-lg rounded-lg w-full  font-mono ' type="text" placeholder='Enter OTP' />
 
-            <Link to='/captain-riding'
+            <button 
             onClick={()=>{
 
             }}
-            className='bg-green-600 flex justify-center font-semibold text-white px-3 py-3 mt-5 rounded-lg text-base' >Confirm</Link>
+            className='bg-green-600 flex justify-center font-semibold text-white px-3 py-3 mt-5 rounded-lg text-base' >Confirm</button>
 
                  <button
             onClick={()=>{

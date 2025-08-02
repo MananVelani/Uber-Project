@@ -48,6 +48,12 @@ module.exports.loginUser=async(req,res,next)=>{
         })
     }
 
+    if(!password){
+         return res.status(401).json({
+            "message": "Invalid email or password"
+        })
+    }
+
     const isPasswordMatch = await user.comparePassword(password);
 
     if(isPasswordMatch){

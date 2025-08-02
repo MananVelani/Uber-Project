@@ -708,3 +708,320 @@ curl -X GET http://localhost:3000/captains/logout \
 
 - After logout, the token is blacklisted and cannot be used for further requests.
 - The authentication cookie is cleared.
+
+
+
+
+
+# Maps Endpoint Documentation
+
+## GET `/maps/get-coordinates`
+
+### Description
+Returns the latitude and longitude for a given address.
+
+---
+
+### Query Parameters
+
+- `address` (string, required): The address to geocode.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+- **How to send:**  
+  - As a cookie named `token`, or  
+  - As a header: `Authorization: Bearer <jwt_token>`
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "lng": 72.8311,
+    "lat": 21.1702
+  }
+  ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid value",
+        "param": "address",
+        "location": "query"
+      }
+    ]
+  }
+  ```
+
+---
+
+### Example Request
+
+```bash
+curl -X GET "http://localhost:3000/maps/get-coordinates?address=Surat" \
+-H "Authorization: Bearer <jwt_token>"
+```
+
+---
+
+## GET `/maps/get-distance-time`
+
+### Description
+Returns the distance and duration between two addresses.
+
+---
+
+### Query Parameters
+
+- `origin` (string, required): Origin address.
+- `destination` (string, required): Destination address.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "distance": 12345,   // in meters
+    "duration": 900      // in seconds
+  }
+  ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid value",
+        "param": "origin",
+        "location": "query"
+      }
+    ]
+  }
+  ```
+
+---
+
+### Example Request
+
+```bash
+curl -X GET "http://localhost:3000/maps/get-distance-time?origin=Surat&destination=Mumbai" \
+-H "Authorization: Bearer <jwt_token>"
+```
+
+---
+
+## GET `/maps/get-suggestions`
+
+### Description
+Returns autocomplete suggestions for a location input.
+
+---
+
+### Query Parameters
+
+- `input` (string, required): The partial address or place name.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  [
+    {
+      "label": "Surat, Gujarat, India",
+      "coords": [72.8311, 21.1702]
+    },
+    ...
+  ]
+  ```
+
+---
+
+### Example Request
+
+```bash
+curl -X GET "http://localhost:3000/maps/get-suggestions?input=Surat" \
+-H "Authorization: Bearer <jwt_token>"
+```
+
+---
+
+# Ride Endpoint Documentation
+
+## POST `/rides/create`
+
+### Description
+Creates a new ride request.
+
+---
+
+### Request Body
+
+```json
+{
+  "pickup": "D/401, Harekrishna Residency",
+  "destination": "SVNIT Campus",
+  "vehicleType": "car"
+}
+```
+
+- `pickup` (string, required): Pickup address.
+- `destination` (string, required): Destination address.
+- `vehicleType` (string, required): One of `auto`, `car`, `moto`.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `201 Created`
+- **Body:**
+  ```json
+  {
+    "ride": {
+      "_id": "<ride_id>",
+      "user": "<user_id>",
+      "pickup": "D/401, Harekrishna Residency",
+      "destination": "SVNIT Campus",
+      "fare": 193.2,
+      "status": "pending",
+      "otp": "123456"
+    }
+  }
+  ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid pickup address",
+        "param": "pickup",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+---
+
+### Example Request
+
+```bash
+curl -X POST http://localhost:3000/rides/create \
+-H "Authorization: Bearer <jwt_token>" \
+-H "Content-Type: application/json" \
+-d '{
+  "pickup": "D/401, Harekrishna Residency",
+  "destination": "SVNIT Campus",
+  "vehicleType": "car"
+}'
+```
+
+---
+
+## GET `/rides/get-fare`
+
+### Description
+Returns fare estimates for a given pickup and destination.
+
+---
+
+### Query Parameters
+
+- `pickup` (string, required): Pickup address.
+- `destination` (string, required): Destination address.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "auto": 100.5,
+    "car": 193.2,
+    "moto": 65.17
+  }
+  ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalied Pickup Address",
+        "param": "pickup",
+        "location": "query"
+      }
+    ]
+  }
+  ```
+
+---
+
+### Example Request
+
+```bash
+curl -X GET "http://localhost:3000/rides/get-fare?pickup=SVNIT%20Campus&destination=Harekrishna%20Residency" \
+-H "Authorization: Bearer <jwt_token>"
+```

@@ -1,6 +1,9 @@
 import React from 'react'
 
 const VehiclePanel = (props) => {
+
+
+
   return (
     <div>
          <h5  onClick={(e)=>{
@@ -11,8 +14,9 @@ const VehiclePanel = (props) => {
           <h3 className=' text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
           <div
           onClick={()=>{
-                        props.setVehiclePanel(false)
-                        props.setConfirmRidePanel(true)
+                      props.setVehicleType('car');
+                      props.setVehiclePanel(false);
+                      props.setConfirmRidePanel(true);                      
                     } 
                     }
            className='flex border-2 border-gray-200 active:border-black rounded-xl p-3 mb-2 w-full items-center justify-between'>
@@ -22,12 +26,13 @@ const VehiclePanel = (props) => {
                 <h4 className='font-medium text-sm'>2 mins away</h4>
                 <p className='font-normal text-xs text-gray-800'>Affordable, compact rides</p>
               </div>
-              <h2 className='text-lg font-semibold'>₹193.20</h2>
+              <h2 className='text-lg font-semibold'>₹{props.fare.car}</h2>
           </div>
           <div
           onClick={()=>{
-                        props.setVehiclePanel(false)
-                        props.setConfirmRidePanel(true)
+                      props.setVehicleType('moto');
+                      props.setVehiclePanel(false);
+                      props.setConfirmRidePanel(true);
                     } 
                     }
           className='flex border-2  border-gray-200 active:border-black rounded-xl p-3 mb-2 w-full items-center justify-between'>
@@ -37,12 +42,13 @@ const VehiclePanel = (props) => {
                 <h4 className='font-medium text-sm'>3 mins away</h4>
                 <p className='font-normal text-xs text-gray-800'>Affordable motorcycles rides</p>
               </div>
-              <h2 className='text-lg font-semibold'>₹65.17</h2>
+              <h2 className='text-lg font-semibold'>₹{props.fare.moto}</h2>
           </div>
           <div
           onClick={()=>{
-                        props.setVehiclePanel(false)
-                        props.setConfirmRidePanel(true)
+                      props.setVehicleType('auto');
+                      props.setVehiclePanel(false);
+                      props.setConfirmRidePanel(true);
                     } 
                     }
           className='flex border-2  border-gray-200 active:border-black rounded-xl p-3 mb-2 w-full items-center justify-between'>
@@ -52,7 +58,7 @@ const VehiclePanel = (props) => {
                 <h4 className='font-medium text-sm'>2 mins away</h4>
                 <p className='font-normal text-xs text-gray-800'>Affordable Auto rides</p>
               </div>
-              <h2 className='text-lg font-semibold'>₹118.21</h2>
+              <h2 className='text-lg font-semibold'>₹{props.fare.auto}</h2>
           </div>
     </div>
   )
